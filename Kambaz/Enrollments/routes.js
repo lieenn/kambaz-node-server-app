@@ -14,13 +14,6 @@ export default function EnrollmentRoutes(app) {
     res.json(enrollments);
   });
 
-  // Get users enrolled in a specific course
-  app.get("/api/courses/:courseId/enrollments", (req, res) => {
-    const { courseId } = req.params;
-    const userIds = dao.findUsersForCourse(courseId);
-    res.json(userIds);
-  });
-
   // Check if a user is enrolled in a course
   app.get("/api/users/:userId/courses/:courseId/enrollments", (req, res) => {
     const { userId, courseId } = req.params;

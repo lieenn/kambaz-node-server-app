@@ -5,30 +5,6 @@ export function findAllCourses() {
   return Database.courses;
 }
 
-export function findCoursesForEnrolledUser(userId) {
-  const { courses, enrollments } = Database;
-  const enrolledCourses = courses.filter((course) =>
-    enrollments.some(
-      (enrollment) =>
-        enrollment.user === userId && enrollment.course === course._id
-    )
-  );
-  return enrolledCourses;
-}
-
-// New function to find all courses not enrolled by a user
-export function findCoursesNotEnrolledByUser(userId) {
-  const { courses, enrollments } = Database;
-  const notEnrolledCourses = courses.filter(
-    (course) =>
-      !enrollments.some(
-        (enrollment) =>
-          enrollment.user === userId && enrollment.course === course._id
-      )
-  );
-  return notEnrolledCourses;
-}
-
 export function createCourse(course) {
   const newCourse = { ...course, _id: uuidv4() };
   Database.courses = [...Database.courses, newCourse];
