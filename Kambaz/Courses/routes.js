@@ -9,20 +9,6 @@ export default function CourseRoutes(app) {
     res.send(courses);
   });
 
-  // Get all courses for a specific user (enrolled courses)
-  app.get("/api/users/:userId/courses", (req, res) => {
-    const { userId } = req.params;
-    const courses = dao.findCoursesForEnrolledUser(userId);
-    res.json(courses);
-  });
-
-  // Get courses not enrolled by a user (for discovery)
-  app.get("/api/users/:userId/courses/available", (req, res) => {
-    const { userId } = req.params;
-    const courses = dao.findCoursesNotEnrolledByUser(userId);
-    res.json(courses);
-  });
-
   // CRUD operations for courses
   app.post("/api/courses", (req, res) => {
     const newCourse = dao.createCourse(req.body);
