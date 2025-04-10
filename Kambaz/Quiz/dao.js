@@ -21,3 +21,23 @@ export function deleteQuiz(quizId) {
   Database.quizzes = quizzes.filter((quiz) => quiz._id !== quizId);
   return { status: "ok" };
 }
+
+export function updateQuiz(quizId, quiz) {
+  // Fixed: Use quizId parameter instead of undefined 'id' variable
+  const index = Database.quizzes.findIndex((q) => q._id === quizId);
+  // Fixed: Check for index !== -1 instead of index !== 1
+  if (index !== -1) {
+    Database.quizzes[index] = {
+      ...Database.quizzes[index],
+      ...quiz,
+    };
+    return Database.quizzes[index];
+  }
+  return null;
+}
+
+export function getQuestions(quizId) {
+  const { quizQuestions } = Database;
+  const questions = quizQuestions.filter((qs) => qs.quizId === quizId);
+  return questions;
+}

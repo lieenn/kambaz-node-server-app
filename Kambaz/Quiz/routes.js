@@ -18,4 +18,19 @@ export default function QuizRoutes(app) {
     const status = await quizDao.deleteQuiz(quizId);
     res.json(status);
   });
+
+  app.put("/api/quizzes/:quizId", async (req, res) => {
+    const { quizId } = req.params;
+    const updatedQuiz = quizDao.updateQuiz(quizId, req.body);
+    if (!updatedQuiz) {
+      return res.status(400).json({ message: "Quiz not found" });
+    }
+    res.json(updatedQuiz);
+  });
+
+  app.get("/api/quizzes/:quizId", async (req, res) => {
+    const { quizId } = req.params;
+    const questions = quizDao.getQuestions(quizId);
+    res.json(questions);
+  });
 }
