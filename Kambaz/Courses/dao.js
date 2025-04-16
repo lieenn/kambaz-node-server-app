@@ -1,31 +1,27 @@
-import Database from "../Database/index.js";
+//import Database from "../Database/index.js";
 import { v4 as uuidv4 } from "uuid";
+import model from "./model.js";
 
-export function findAllCourses() {
-  return Database.courses;
+export async function findAllCourses() {
+  const courses = await model.find();
+  return courses;
 }
 
-export function createCourse(course) {
+export async function createCourse(course) {
   const newCourse = { ...course, _id: uuidv4() };
-  Database.courses = [...Database.courses, newCourse];
-  return newCourse;
+  const actualCourse = await model.create(newCourse);
+  return actualCourse;
 }
 
-export function deleteCourse(courseId) {
-  const { courses, enrollments } = Database;
-  Database.courses = courses.filter((course) => course._id !== courseId);
-  Database.enrollments = enrollments.filter(
-    (enrollment) => enrollment.course !== courseId
+export async function deleteCourse(courseId) {
+  const status = await model.deleteOne({ _id: courseId });
+  return status;
+}
+
+export async function updateCourse(courseId, courseUpdates) {
+  const status = await model.updateOne(
+    { _id, courseId },
+    { $set: courseUpdates }
   );
-  return { status: "OK" };
-}
-
-export function updateCourse(courseId, courseUpdates) {
-  const { courses } = Database;
-  const course = courses.find((course) => course._id === courseId);
-  if (course) {
-    Object.assign(course, courseUpdates);
-    return course;
-  }
-  return null;
+  return status;
 }
